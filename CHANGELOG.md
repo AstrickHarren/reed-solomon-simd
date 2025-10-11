@@ -34,7 +34,7 @@
 ## 3.0.1 - 2024-11-23
 - AVX2: Up to 20% higher throughput in encoding and up to 10% faster decoding.
 
-## 3.1.0 - UNRELEASED
+## 3.1.0 - 2025-10-14
 - `no_std` support when new `std` feature is disabled (`std` feature is enabled by default).
 - Require Rust 1.82.0 or newer
 - Implement trait `ExactSizeIterator` for `EncoderResult` and `DecoderResult` iterators.
