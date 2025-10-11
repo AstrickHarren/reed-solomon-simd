@@ -73,7 +73,7 @@ fn main() {
     let mut encoder_work = Some(EncoderWork::new());
     let mut decoder_work = Some(DecoderWork::new());
 
-    let mut rng = rand::thread_rng();
+    let mut rng = rand::rng();
 
     let max_shard_bytes = MAX_SHARD_BYTES_LOG.exp2() as usize;
     let max_original_count = MAX_ORIGINAL_COUNT_LOG.exp2() as usize;
@@ -93,16 +93,16 @@ fn main() {
             }
         }
 
-        let shard_bytes_log: f64 = rng.gen_range(MIN_SHARD_BYTES_LOG..=MAX_SHARD_BYTES_LOG);
+        let shard_bytes_log: f64 = rng.random_range(MIN_SHARD_BYTES_LOG..=MAX_SHARD_BYTES_LOG);
         let shard_bytes: usize = ((shard_bytes_log.exp2() / 64.0) as usize) * 64;
 
         let mut original_count;
         let mut recovery_count;
         loop {
             let original_count_log: f64 =
-                rng.gen_range(MIN_ORIGINAL_COUNT_LOG..=MAX_ORIGINAL_COUNT_LOG);
+                rng.random_range(MIN_ORIGINAL_COUNT_LOG..=MAX_ORIGINAL_COUNT_LOG);
             let recovery_count_log: f64 =
-                rng.gen_range(MIN_RECOVERY_COUNT_LOG..=MAX_RECOVERY_COUNT_LOG);
+                rng.random_range(MIN_RECOVERY_COUNT_LOG..=MAX_RECOVERY_COUNT_LOG);
 
             original_count = original_count_log.exp2() as usize;
             recovery_count = recovery_count_log.exp2() as usize;
@@ -116,10 +116,10 @@ fn main() {
         }
 
         // 50% chance of max loss
-        let loss_count = if rng.gen::<bool>() {
+        let loss_count = if rng.random::<bool>() {
             recovery_count
         } else {
-            rng.gen_range(1..=recovery_count)
+            rng.random_range(1..=recovery_count)
         };
 
         let loss_indexes: FixedBitSet =

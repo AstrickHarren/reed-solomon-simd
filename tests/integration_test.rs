@@ -18,8 +18,8 @@ use reed_solomon_simd::engine::Neon;
 
 fn random_shard_count(rng: &mut impl Rng) -> (usize, usize) {
     loop {
-        let original_count = rng.gen_range(0..65536);
-        let recovery_count = rng.gen_range(0..65536);
+        let original_count = rng.random_range(0..65536);
+        let recovery_count = rng.random_range(0..65536);
         if DefaultRateEncoder::<NoSimd>::supports(original_count, recovery_count) {
             return (original_count, recovery_count);
         }
@@ -247,7 +247,7 @@ fn x86_ssse3_random_roundtrips() -> Result<(), Error> {
 
     for _ in 0..5 {
         let (original_count, recovery_count) = random_shard_count(&mut rng);
-        let chunk_count: usize = rng.gen_range(1..=3);
+        let chunk_count: usize = rng.random_range(1..=3);
         compare_to_nosimd::<Ssse3>(original_count, recovery_count, chunk_count * 64)?;
     }
 
@@ -267,7 +267,7 @@ fn x86_avx2_random_roundtrips() -> Result<(), Error> {
 
     for _ in 0..5 {
         let (original_count, recovery_count) = random_shard_count(&mut rng);
-        let chunk_count: usize = rng.gen_range(1..=3);
+        let chunk_count: usize = rng.random_range(1..=3);
         compare_to_nosimd::<Avx2>(original_count, recovery_count, chunk_count * 64)?;
     }
 
@@ -287,7 +287,7 @@ fn aarch64_neon_random_roundtrips() -> Result<(), Error> {
 
     for _ in 0..5 {
         let (original_count, recovery_count) = random_shard_count(&mut rng);
-        let chunk_count: usize = rng.gen_range(1..=3);
+        let chunk_count: usize = rng.random_range(1..=3);
         compare_to_nosimd::<Neon>(original_count, recovery_count, chunk_count * 64)?;
     }
 

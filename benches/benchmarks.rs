@@ -1,4 +1,6 @@
-use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
+use std::hint::black_box;
+
+use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 
@@ -327,7 +329,7 @@ fn benchmarks_engine_one<E: Engine>(c: &mut Criterion, name: &str, engine: E) {
     // EVAL_POLY
 
     let mut rng = ChaCha8Rng::from_seed([0; 32]);
-    let mut data = [(); GF_ORDER].map(|_| rng.gen());
+    let mut data = [(); GF_ORDER].map(|_| rng.random());
 
     group.bench_function("eval_poly", |b| {
         b.iter(|| E::eval_poly(black_box(&mut data), GF_ORDER))

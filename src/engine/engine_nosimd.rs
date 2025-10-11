@@ -338,7 +338,7 @@ mod tests {
             rng.fill(data_nosimd.as_flattened_mut());
             let mut data_naive = data_nosimd.clone();
 
-            let log_m = rng.gen();
+            let log_m = rng.random();
 
             nosimd.mul(&mut data_nosimd, log_m);
             naive.mul(&mut data_naive, log_m);

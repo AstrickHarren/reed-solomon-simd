@@ -103,7 +103,7 @@ mod tests {
     fn test_full() {
         let mut rng = ChaCha8Rng::from_seed([0; 32]);
 
-        let mut data1 = [(); GF_ORDER].map(|_| rng.gen());
+        let mut data1 = [(); GF_ORDER].map(|_| rng.random());
         let mut data2 = data1;
 
         fwht(&mut data1, GF_ORDER);
@@ -115,7 +115,7 @@ mod tests {
     #[test]
     fn test_truncated() {
         let mut rng = ChaCha8Rng::from_seed([0; 32]);
-        let random: Vec<GfElement> = (0..GF_ORDER).map(|_| rng.gen()).collect();
+        let random: Vec<GfElement> = (0..GF_ORDER).map(|_| rng.random()).collect();
 
         for nonzero_count in [
             0,
