@@ -199,8 +199,8 @@ fn test_reed_solomon_erasure_16(count: usize) {
     let mut rng = ChaCha8Rng::from_seed([0; 32]);
     for shard in &mut original {
         for element in shard.iter_mut() {
-            element[0] = rng.gen();
-            element[1] = rng.gen();
+            element[0] = rng.random();
+            element[1] = rng.random();
         }
     }
 
