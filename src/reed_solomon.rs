@@ -1,4 +1,5 @@
 use crate::{
+    encoder_result::EncoderResultOwned,
     engine::DefaultEngine,
     rate::{DefaultRate, DefaultRateDecoder, DefaultRateEncoder, Rate, RateDecoder, RateEncoder},
     DecoderResult, EncoderResult, Error,
@@ -34,6 +35,16 @@ impl ReedSolomonEncoder {
     /// [`reset`]: ReedSolomonEncoder::reset
     pub fn encode(&mut self) -> Result<EncoderResult<'_>, Error> {
         self.0.encode()
+    }
+
+    /// Encodes the added original shards returning [`EncoderResultOwned`]
+    /// which contains the generated recovery shards, this takes the ownership
+    /// of the encoder, and user cannot use that encoder anymore.
+    ///
+    /// If you want to reuse the encoder (so as to save re-allocation), you can
+    /// use [`Self::encode`] instead.
+    pub fn encode_owned(mut self) -> Result<EncoderResultOwned, Error> {
+        Ok(self.0.encode()?.take())
     }
 
     /// Creates new encoder with given configuration

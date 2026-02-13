@@ -22,7 +22,7 @@ use core::fmt;
 
 pub use crate::{
     decoder_result::{DecoderResult, RestoredOriginal},
-    encoder_result::{EncoderResult, Recovery},
+    encoder_result::{EncoderResult, EncoderResultOwned, Recovery},
     reed_solomon::{ReedSolomonDecoder, ReedSolomonEncoder},
 };
 

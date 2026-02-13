@@ -31,6 +31,12 @@ impl EncoderResult<'_> {
     pub fn recovery_iter(&self) -> Recovery<'_> {
         Recovery::new(self.work)
     }
+
+    pub fn take(&mut self) -> EncoderResultOwned {
+        EncoderResultOwned {
+            work: std::mem::take(&mut self.work),
+        }
+    }
 }
 
 // ======================================================================
@@ -48,6 +54,20 @@ impl<'a> EncoderResult<'a> {
 impl Drop for EncoderResult<'_> {
     fn drop(&mut self) {
         self.work.reset_received();
+    }
+}
+
+pub struct EncoderResultOwned {
+    work: EncoderWork,
+}
+
+impl EncoderResultOwned {
+    pub fn recovery(&self, index: usize) -> Option<&[u8]> {
+        self.work.recovery(index)
+    }
+
+    pub fn recovery_iter(&self) -> Recovery<'_> {
+        Recovery::new(&self.work)
     }
 }
 
